@@ -5,6 +5,7 @@ import { useParams } from 'next/navigation';
 import Dashboard from '../../../components/Dashboard';
 import { Loader2, AlertCircle } from 'lucide-react';
 import Link from 'next/link';
+import { getApiUrl } from '../../../lib/config';
 
 export default function DashboardPage() {
   const params = useParams();
@@ -15,7 +16,7 @@ export default function DashboardPage() {
 
   useEffect(() => {
     if (!id) return;
-    const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+    const API_URL = getApiUrl();
 
     fetch(`${API_URL}/api/analysis/${id}`)
       .then(res => {
