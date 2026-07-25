@@ -1,9 +1,10 @@
-import os
 import json
-from typing import List, Dict, Any
+from typing import Any
+
 from services.analyzer import get_openai_client
 
-async def generate_project_roadmap(project_name: str, description: str, tech_stack: List[str]) -> List[Dict[str, Any]]:
+
+async def generate_project_roadmap(project_name: str, description: str, tech_stack: list[str]) -> list[dict[str, Any]]:
     """
     Generates a structured 5-phase project implementation roadmap.
     """
