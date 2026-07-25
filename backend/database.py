@@ -8,8 +8,12 @@ load_dotenv()
 
 DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./graveyard_mining.db")
 
+# Fix Heroku / Railway legacy 'postgres://' URI scheme for SQLAlchemy 2.0 compatibility
+if DATABASE_URL and DATABASE_URL.startswith("postgres://"):
+    DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
+
 # SQLite (local dev) — check_same_thread=False
-# PostgreSQL (Supabase prod) — pool_pre_ping=True for connection resilience
+# PostgreSQL (Supabase/Railway prod) — pool_pre_ping=True for connection resilience
 engine = create_engine(
     DATABASE_URL,
     connect_args={"check_same_thread": False} if "sqlite" in DATABASE_URL else {},
