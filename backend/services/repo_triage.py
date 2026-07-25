@@ -1,7 +1,8 @@
-from datetime import datetime, timezone, timedelta
-from typing import Dict, Any
+from datetime import datetime, timezone
+from typing import Any
 
-def calculate_abandonment_score(repo_data: Dict[str, Any], last_commit_date_str: str = None) -> float:
+
+def calculate_abandonment_score(repo_data: dict[str, Any], last_commit_date_str: str = None) -> float:
     """
     Calculates Abandonment Score from 0.0 (active/healthy) to 100.0 (completely abandoned/dead).
     """
