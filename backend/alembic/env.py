@@ -20,7 +20,10 @@ from database import Base
 target_metadata = Base.metadata
 
 def get_url():
-    return os.getenv("DATABASE_URL", "sqlite:///./graveyard_mining.db")
+    url = os.getenv("DATABASE_URL", "sqlite:///./graveyard_mining.db")
+    if url and url.startswith("postgres://"):
+        url = url.replace("postgres://", "postgresql://", 1)
+    return url
 
 def run_migrations_offline() -> None:
     url = get_url()
