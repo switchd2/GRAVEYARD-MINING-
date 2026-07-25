@@ -1,5 +1,5 @@
 import os
-from typing import Optional
+
 # pyrefly: ignore [missing-import]
 from dotenv import load_dotenv
 
@@ -7,7 +7,7 @@ load_dotenv()
 
 TAVILY_API_KEY = os.getenv("TAVILY_API_KEY", "")
 
-async def search_failure_context(repo_name: str, tech_stack_str: str) -> Optional[str]:
+async def search_failure_context(repo_name: str, tech_stack_str: str) -> str | None:
     """
     Queries Tavily web search for post-mortems, discussions, or failure reasons related to the technology/repo pattern.
     """
