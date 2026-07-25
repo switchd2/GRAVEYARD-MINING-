@@ -1,14 +1,15 @@
-import os
 import json
-from typing import Dict, Any, Optional
-from openai import AsyncOpenAI
+import os
+from typing import Any
+
 from dotenv import load_dotenv
+from openai import AsyncOpenAI
 
 load_dotenv()
 
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
 
-def get_openai_client() -> Optional[AsyncOpenAI]:
+def get_openai_client() -> AsyncOpenAI | None:
     if OPENAI_API_KEY and not OPENAI_API_KEY.startswith("your_"):
         return AsyncOpenAI(api_key=OPENAI_API_KEY)
     return None
@@ -19,8 +20,8 @@ async def diagnose_repository_failure(
     readme_excerpt: str,
     issues: list,
     abandonment_score: float,
-    tavily_context: Optional[str] = None
-) -> Dict[str, Any]:
+    tavily_context: str | None = None
+) -> dict[str, Any]:
     """
     Uses OpenAI gpt-4o-mini to diagnose why a repository was likely abandoned or failed.
     """
