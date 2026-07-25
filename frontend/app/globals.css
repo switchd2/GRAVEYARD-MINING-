@@ -38,12 +38,14 @@ body {
 
 .text-gradient {
   background: linear-gradient(135deg, #818CF8 0%, #C084FC 50%, #F472B6 100%);
+  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .text-gradient-amber {
   background: linear-gradient(135deg, #FBBF24 0%, #F59E0B 50%, #EF4444 100%);
+  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
