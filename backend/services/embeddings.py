@@ -1,6 +1,8 @@
 import os
 from typing import List, Optional
+# pyrefly: ignore [missing-import]
 from openai import AsyncOpenAI
+# pyrefly: ignore [missing-import]
 from dotenv import load_dotenv
 
 load_dotenv()

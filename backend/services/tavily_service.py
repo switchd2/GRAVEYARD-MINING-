@@ -1,5 +1,6 @@
 import os
 from typing import Optional
+# pyrefly: ignore [missing-import]
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -14,6 +15,7 @@ async def search_failure_context(repo_name: str, tech_stack_str: str) -> Optiona
         return "Web search skipped (Tavily API key not configured)."
 
     try:
+        # pyrefly: ignore [missing-import]
         from tavily import TavilyClient
         client = TavilyClient(api_key=TAVILY_API_KEY)
         query = f"why {repo_name} {tech_stack_str} project abandoned postmortem issues challenges"
