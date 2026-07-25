@@ -91,7 +91,7 @@
 - Node.js 18+
 - PowerShell (Windows)
 
-### 1-Command Launcher
+### 1-Command Launcher (Native / Local Python)
 
 Run both backend (`http://localhost:8000`) and frontend (`http://localhost:3000`) concurrently with live color-coded logs:
 
@@ -107,6 +107,34 @@ Flags available:
 
 ---
 
+## 🐳 Docker Quick Start (PostgreSQL + pgAdmin)
+
+Spin up the entire stack (PostgreSQL 16, pgAdmin 4, FastAPI Backend, Next.js Frontend) with a single command:
+
+### 1. Copy Environment Template
+```bash
+cp .env.example .env
+```
+Update `.env` with your `OPENAI_API_KEY` and optional `GITHUB_TOKEN`.
+
+### 2. Start Containers
+```bash
+docker compose up --build
+```
+
+### 3. Service Access
+| Service | URL | Credentials |
+| --- | --- | --- |
+| **Next.js Frontend** | `http://localhost:3000` | N/A |
+| **FastAPI Backend** | `http://localhost:8000` | N/A |
+| **Swagger API Docs** | `http://localhost:8000/docs` | N/A |
+| **pgAdmin 4** | `http://localhost:5050` | `admin@example.com` / `admin` |
+| **PostgreSQL DB** | `localhost:5432` | `postgres` / `postgres` / DB: `graveyard_mining` |
+
+> **Note on Database Portability:** The backend detects `DATABASE_URL`. Switching from local Docker PostgreSQL to Railway or Supabase PostgreSQL requires changing only the `DATABASE_URL` environment variable. SQLite is retained as a fallback for lightweight development when `DATABASE_URL` is omitted.
+
+---
+
 ## 🔑 Environment Variables Reference
 
 Copy `.env.example` in `backend/` and `frontend/`:
@@ -115,7 +143,7 @@ Copy `.env.example` in `backend/` and `frontend/`:
 
 | Variable | Required | Description |
 | --- | --- | --- |
-| `DATABASE_URL` | Yes | Supabase URI (`postgresql://...`) or local SQLite (`sqlite:///./graveyard_mining.db`) |
+| `DATABASE_URL` | Yes | PostgreSQL URI (`postgresql://...`) or local SQLite (`sqlite:///./graveyard_mining.db`) |
 | `OPENAI_API_KEY` | Yes | OpenAI API key for GPT-4o-mini diagnosis & embeddings |
 | `GITHUB_TOKEN` | Recommended | GitHub Personal Access Token (increases rate limit from 60 to 5000 req/hr) |
 | `TAVILY_API_KEY` | Optional | Tavily Web Search API key for repo post-mortem context |
@@ -126,15 +154,15 @@ Copy `.env.example` in `backend/` and `frontend/`:
 
 | Variable | Required | Description |
 | --- | --- | --- |
-| `NEXT_PUBLIC_API_URL` | Yes | Full URL of the backend service (e.g. `https://api.up.railway.app`) |
+| `NEXT_PUBLIC_API_URL` | Yes | Full URL of the backend service (e.g. `https://api.up.railway.app` or `http://localhost:8000`) |
 
 ---
 
 ## 🗄 Database Setup & Migrations (Alembic)
 
-The application uses SQLAlchemy with Alembic migration support.
+The application uses SQLAlchemy with Alembic migration support. In Docker, migrations run automatically on startup via `entrypoint.sh`.
 
-### Apply Migrations
+### Manual Migration Commands
 
 ```bash
 cd backend
@@ -176,13 +204,13 @@ alembic revision --autogenerate -m "Add new column"
 
 ## 📡 API Endpoints
 
-| Method | Endpoint | Description | Rate Limit |
-| --- | --- | --- | --- |
-| `GET` | `/health` | Health check endpoint | Unlimited |
-| `GET` | `/` | Root API metadata | Unlimited |
-| `POST` | `/api/analyze` | Execute full project risk analysis | 20 req / min |
-| `GET` | `/api/analyses` | List recent project analyses | Unlimited |
-| `GET` | `/api/analysis/{id}` | Get specific analysis report by ID | Unlimited |
+| Method | Endpoint | Description | Rate Limit | Reasoning |
+| --- | --- | --- | --- | --- |
+| `GET` | `/health` | Health check endpoint | Unlimited | Unthrottled system monitoring |
+| `GET` | `/` | Root API metadata | Unlimited | Lightweight metadata |
+| `POST` | `/api/analyze` | Execute full project risk analysis | 7 req / min | Heavy GitHub API + OpenAI LLM + DB write pipeline |
+| `GET` | `/api/analyses` | List recent project analyses | 40 req / min | Read-only lightweight DB queries |
+| `GET` | `/api/analysis/{id}` | Get specific analysis report by ID | 40 req / min | Read-only report lookup |
 
 ---
 
