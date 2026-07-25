@@ -1,7 +1,9 @@
-from sqlalchemy import Column, Integer, String, Float, Text, DateTime, ForeignKey, JSON
-from sqlalchemy.orm import relationship
-from datetime import datetime
+from datetime import datetime, timezone
+
 from database import Base
+from sqlalchemy import JSON, Column, DateTime, Float, ForeignKey, Integer, String, Text
+from sqlalchemy.orm import relationship
+
 
 class ProjectAnalysis(Base):
     __tablename__ = "project_analyses"
@@ -10,7 +12,7 @@ class ProjectAnalysis(Base):
     project_name = Column(String, nullable=False)
     description = Column(Text, nullable=False)
     tech_stack = Column(JSON, nullable=False)  # list of strings
-    created_at = Column(DateTime, default=datetime.utcnow)
+    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
 
     repositories = relationship("Repository", back_populates="analysis", cascade="all, delete-orphan")
     dependency_reports = relationship("DependencyReport", back_populates="analysis", cascade="all, delete-orphan")
