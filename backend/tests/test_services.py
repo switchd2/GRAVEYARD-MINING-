@@ -1,4 +1,9 @@
+import os
+import sys
 import pytest
+
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 from database import Base, engine, SessionLocal
 from schemas.schemas import AnalyzeRequest
 from services.ai_service import AIService
