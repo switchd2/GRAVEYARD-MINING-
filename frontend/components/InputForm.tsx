@@ -68,7 +68,7 @@ export default function InputForm() {
       router.push(`/dashboard/${data.id}`);
     } catch (err) {
       console.error(err);
-      alert('Error conducting analysis. Ensure FastAPI backend is running on http://localhost:8000');
+      alert('Error conducting analysis. Please check your backend connection and try again.');
       setIsLoading(false);
     }
   };
