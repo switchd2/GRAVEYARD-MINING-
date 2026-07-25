@@ -20,7 +20,7 @@ analysis_service = AnalysisService()
 report_service = ReportService()
 
 @router.post("/analyze", response_model=dict[str, Any])
-@limiter.limit("20/minute")
+@limiter.limit("7/minute")
 async def analyze_project(request: Request, req: AnalyzeRequest, db: Session = Depends(get_db)):
     """
     Main orchestration endpoint for Graveyard Mining.
@@ -54,7 +54,8 @@ async def analyze_project(request: Request, req: AnalyzeRequest, db: Session = D
         )
 
 @router.get("/analyses", response_model=list[dict[str, Any]])
-def list_analyses(db: Session = Depends(get_db)):
+@limiter.limit("40/minute")
+def list_analyses(request: Request, db: Session = Depends(get_db)):
     analyses = db.query(ProjectAnalysis).order_by(ProjectAnalysis.created_at.desc()).all()
     return [
         {
@@ -68,7 +69,8 @@ def list_analyses(db: Session = Depends(get_db)):
     ]
 
 @router.get("/analysis/{analysis_id}", response_model=dict[str, Any])
-def get_analysis_by_id(analysis_id: int, db: Session = Depends(get_db)):
+@limiter.limit("40/minute")
+def get_analysis_by_id(request: Request, analysis_id: int, db: Session = Depends(get_db)):
     project = db.query(ProjectAnalysis).filter(ProjectAnalysis.id == analysis_id).first()
     if not project:
         raise HTTPException(
