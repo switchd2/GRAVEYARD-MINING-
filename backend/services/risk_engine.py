@@ -1,10 +1,11 @@
-from typing import List, Dict, Any
+from typing import Any
+
 
 def inject_risk_annotations(
-    phases: List[Dict[str, Any]],
-    clusters: List[Dict[str, Any]],
-    dependency_reports: List[Dict[str, Any]]
-) -> List[Dict[str, Any]]:
+    phases: list[dict[str, Any]],
+    clusters: list[dict[str, Any]],
+    dependency_reports: list[dict[str, Any]]
+) -> list[dict[str, Any]]:
     """
     Annotates roadmap phases with risk checkpoints derived from dead repo failure clusters and dependency reports.
     """
