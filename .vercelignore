@@ -1,0 +1,16 @@
+# Vercel Deployment Exclusions
+.git
+.github
+*.db
+*.sqlite3
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+.vscode/
+backend/
+start.ps1
+start-docker.ps1
+docker-compose.yml
+alembic/
+alembic.ini
