@@ -1,6 +1,7 @@
 import os
+from typing import Any
+
 import httpx
-from typing import List, Dict, Any
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -30,7 +31,7 @@ async def check_osv_vulnerabilities(package_name: str, ecosystem: str = "npm") -
             print(f"OSV check error for {package_name}: {e}")
     return 0
 
-async def check_libraries_io(package_name: str, platform: str = "npm") -> Dict[str, Any]:
+async def check_libraries_io(package_name: str, platform: str = "npm") -> dict[str, Any]:
     """
     Queries Libraries.io for package maintenance score, dependent count, and latest release info.
     """
@@ -73,7 +74,7 @@ async def check_socket_security(package_name: str) -> str:
                 print(f"Socket API error: {e}")
     return "LOW"
 
-async def analyze_dependencies(tech_stack: List[str]) -> List[Dict[str, Any]]:
+async def analyze_dependencies(tech_stack: list[str]) -> list[dict[str, Any]]:
     """
     Aggregates dependency security & maintenance reports for items in tech_stack.
     """
