@@ -4,6 +4,8 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Sparkles, Layers, Search, Loader2, CheckCircle2, ArrowRight } from 'lucide-react';
 
+import { getApiUrl } from '../lib/config';
+
 const COMMON_STACKS = [
   'Next.js', 'React', 'FastAPI', 'Python', 'Node.js', 
   'PostgreSQL', 'Tailwind', 'Docker', 'OpenAI', 'Prisma', 
@@ -49,7 +51,7 @@ export default function InputForm() {
       setTimeout(() => setStepText('Checking OSV, Snyk & Socket dependency health...'), 6000);
       setTimeout(() => setStepText('Clustering failure vectors & injecting risk annotations...'), 9000);
 
-      const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+      const API_URL = getApiUrl();
       const response = await fetch(`${API_URL}/api/analyze`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
