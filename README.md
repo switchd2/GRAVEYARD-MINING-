@@ -1,3 +1,8 @@
+Viewed README.md:1-229
+
+Here is the complete and up-to-date `README.md` for the Graveyard Mining project, incorporating all the latest architectural details, environment variable configurations, deployment guides, and quick-start instructions:
+
+```markdown
 # ☠ Graveyard Mining — AI Risk Intelligence for Open-Source Architecture
 
 [![Backend CI](https://github.com/switchd2/GRAVEYARD-MINING-/actions/workflows/ci.yml/badge.svg)](https://github.com/switchd2/GRAVEYARD-MINING-/actions/workflows/ci.yml)
@@ -225,4 +230,5 @@ curl -I https://your-backend.up.railway.app/health
 
 # 2. Open Swagger Documentation
 https://your-backend.up.railway.app/docs
+```
 ```
