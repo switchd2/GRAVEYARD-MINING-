@@ -1,20 +1,21 @@
 import os
-from typing import List, Optional
-# pyrefly: ignore [missing-import]
-from openai import AsyncOpenAI
+
 # pyrefly: ignore [missing-import]
 from dotenv import load_dotenv
+
+# pyrefly: ignore [missing-import]
+from openai import AsyncOpenAI
 
 load_dotenv()
 
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
 
-def get_openai_client() -> Optional[AsyncOpenAI]:
+def get_openai_client() -> AsyncOpenAI | None:
     if OPENAI_API_KEY and not OPENAI_API_KEY.startswith("your_"):
         return AsyncOpenAI(api_key=OPENAI_API_KEY)
     return None
 
-async def generate_embedding(text: str) -> List[float]:
+async def generate_embedding(text: str) -> list[float]:
     """
     Generates text embedding vector using OpenAI text-embedding-3-small (1536 dims).
     Falls back to simple hash-based pseudo-vector if API call fails or key is missing.
